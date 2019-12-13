@@ -19,10 +19,10 @@ The real Robot arm is currently still in progress however the Dynamixel ROS API 
 
 SIMULATION:
 
-[GitHub](http://github.com)
+[Robot Arm Simulation Instructions](https://github.com/ji81930/Robotic_Arm/tree/master/Robotic_Arm)
 
 
 TELEOPERATION:
 
-[GitHub](http://github.com)
+[Teleoperation of Real Robot Arm Instructions](https://github.com/ji81930/Robotic_Arm/tree/master/joy_controller)
 
