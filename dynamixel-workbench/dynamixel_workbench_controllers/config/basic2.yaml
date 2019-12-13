@@ -1,0 +1,17 @@
+# You can find control table of Dynamixel on emanual (http://emanual.robotis.com/control-table)
+# Control table item has to be set Camel_Case and not included whitespace
+# You are supposed to set at least Dynamixel ID
+
+arm3:
+  ID: 3
+  Return_Delay_Time: 2
+  Operating_Mode: 3
+  Profile_Acceleration: 50
+  Profile_Velocity: 10
+arm4:
+  ID: 4
+  Return_Delay_Time: 4
+  Operating_Mode: 3
+  Profile_Acceleration: 50
+  Profile_Velocity: 10
+
