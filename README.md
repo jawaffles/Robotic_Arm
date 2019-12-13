@@ -9,7 +9,15 @@ A CAD file has been converted into a Gazebo and ROS based simulation for the rob
 Teleoperation for control of the joints of dynamixel robot arm using the Dynamixel API. 
 
 
+<Pictures for Simulation/Robot Arm>
 
 
+SIMULATION:
+
+<Link to Simulation Github>
+
+TELEOPERATION:
+
+<Link to Teleoperation Github>
 
 
