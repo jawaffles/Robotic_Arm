@@ -1,0 +1,111 @@
+<launch>
+
+<!-- Gazebo Launch -->
+  <include file="$(find gazebo_ros)/launch/empty_world.launch" >
+    <arg name="verbose" value="true"/>
+  </include>
+
+  <arg name="model" default="$(find Robotic_Arm)/urdf/Robotic_Arm.xacro"/>
+  <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)" />
+
+
+  <node
+    name="tf_footprint_base"
+    pkg="tf"
+    type="static_transform_publisher"
+    args="0 0 0 0 0 0 base_link base_footprint 40" />
+  <node
+    name="spawn_model"
+    pkg="gazebo_ros"
+    type="spawn_model"
+    args="-file $(find Robotic_Arm)/urdf/Robotic_Arm.xacro -urdf -model Robotic_Arm "
+    output="screen" />
+
+
+  <node
+    name="fake_joint_calibration"
+    pkg="rostopic"
+    type="rostopic"
+    args="pub /calibrated std_msgs/Bool true" />
+
+  
+
+  <!-- Load joint controller configurations from YAML file to parameter
+  server -->
+  <rosparam file="$(find Robotic_Arm)/config/controllers.yaml" command="load"/>
+
+
+
+
+
+  <!-- Trajectory controller launch -->
+
+  <rosparam file="$(find Robotic_Arm)/config/trajectory_control.yaml" command="load"/>
+
+  <node name="Robotic_Arm_controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+    output="screen" ns="/Robotic_Arm" args="Robotic_Arm_joint_controller"/>
+
+
+
+
+
+
+
+
+  <!-- Set the param that trajectory_execution_manager needs to find the
+  controller plugin -->
+  <arg name="moveit_controller_manager" default="moveit_simple_controller_manager/MoveItSimpleControllerManager" />
+  <param name="moveit_controller_manager" value="$(arg moveit_controller_manager)"/>
+
+  <!-- load controller_list -->
+  <arg name="use_controller_manager" default="true" />
+  <param name="use_controller_manager" value="$(arg use_controller_manager)" />
+
+
+
+
+
+
+
+<!-- Gazebo States -->
+
+
+ <!-- Load joint controller configurations from YAML file to parameter server -->
+  <rosparam file="$(find Robotic_Arm)/config/Robotic_Arm_joint_states.yaml" command="load"/>
+
+
+
+  <node name="joint_controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+  output="screen" ns="/Robotic_Arm" args="joint_state_controller" />
+
+
+
+ <node name="joint_state_publisher" pkg="joint_state_publisher" type="joint_state_publisher">
+	<param name="/use_gui" value="false"/>
+	<rosparam param="/source_list">[/move_group/Robotic_Arm]</rosparam>
+ </node>
+
+
+
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen" >
+  <remap from="/joint_states" to="/Robotic_Arm/joint_states" />
+  </node>
+
+
+
+
+  # The planning and execution components of MoveIt! configured to 
+  # publish the current configuration of the robot (simulated or real)
+  # and the current state of the world as seen by the planner
+  <include file="$(find moveitRoboticArm)/launch/move_group.launch">
+    <arg name="publish_monitored_planning_scene" value="true" />
+
+  </include>
+
+
+  # The visualization component of MoveIt!
+  <include file="$(find moveitRoboticArm)/launch/moveit_rviz.launch"/>
+
+
+
+</launch>

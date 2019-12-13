@@ -1,0 +1,36 @@
+<launch>
+  <include file="$(find gazebo_ros)/launch/empty_world.launch" >
+    <arg name="verbose" value="true"/>
+  </include>
+
+
+  <node
+    name="spawn_model"
+    pkg="gazebo_ros"
+    type="spawn_model"
+    args="-file $(find Robotic_Arm)/urdf/Robotic_Arm.xacro -urdf -model Robotic_Arm  "
+    output="screen" />
+
+
+  <node
+    name="fake_joint_calibration"
+    pkg="rostopic"
+    type="rostopic"
+    args="pub /calibrated std_msgs/Bool true" />
+
+  <arg name="model" default="$(find Robotic_Arm)/urdf/Robotic_Arm.xacro"/>
+
+  <param name="robot_description" command="$(find xacro)/xacro --inorder $(arg model)" />
+
+  <rosparam file="$(find Robotic_Arm)/config/Robotic_Arm_Control.yaml" command = "load" />
+
+  <node name="controller_spawner" pkg="controller_manager" type="spawner" respawn="false"
+  output="screen" ns="/Robotic_Arm" args=" joint_state_controller arm_joint_1_position_controller arm_joint_2_position_controller arm_joint_3_position_controller 
+  arm_joint_4_position_controller arm_joint_end_position_controller"
+  />
+
+  <node name="robot_state_publisher" pkg="robot_state_publisher" type="robot_state_publisher" respawn="false" output="screen" >
+
+  </node>
+
+</launch>

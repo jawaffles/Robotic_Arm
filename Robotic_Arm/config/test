@@ -1,0 +1,11 @@
+
+
+
+ass = 4.545454545
+
+
+grades = [1,1,.7,.6,1,.8,1,1,.9,.9,0]
+
+
+
+final_grade = sum(ass * grades)
