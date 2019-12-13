@@ -12,15 +12,17 @@ The real Robot arm is currently still in progress however the Dynamixel ROS API 
 
 
 
-<Pictures for Simulation/Robot Arm>
+![Image of irl RobotArm](https://github.com/ji81930/Robotic_Arm/blob/master/pictures/irlRobotArm.jpg)
+![Image of irl RobotArm](https://github.com/ji81930/Robotic_Arm/blob/master/pictures/simRoboticArm.png)
+
 
 
 SIMULATION:
 
-<Link to Simulation Github>
+[GitHub](http://github.com)
+
 
 TELEOPERATION:
 
-<Link to Teleoperation Github>
-
+[GitHub](http://github.com)
 
